@@ -1,0 +1,276 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #f0f4f8;
+    --surface-1: #ffffff;
+    --surface-2: #f8fafc;
+    --border: #dde3ea;
+    --accent: #0077cc;
+    --accent-glow: rgba(0, 119, 204, 0.2);
+    --green: #1a9e3f;
+    --red: #d63b35;
+    --text-primary: #1a2332;
+    --text-secondary: #4a5568;
+    --text-muted: #94a3b8;
+}
+
+body {
+    background: var(--bg);
+    background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0, 119, 204, 0.07) 0%, transparent 60%);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 52px 24px 80px;
+}
+
+/* ── Header ── */
+.header-label {
+    font-size: 0.68rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    text-align: center;
+    margin-bottom: 14px;
+}
+
+.status-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--red);
+    flex-shrink: 0;
+    transition: background 0.4s, box-shadow 0.4s;
+}
+
+body.server-on .status-dot {
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 6px var(--green);
+    }
+
+    50% {
+        box-shadow: 0 0 14px var(--green);
+    }
+}
+
+/* ── Button Styling ── */
+#gPowerButton {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+#power-button,
+#power-button-text {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.server-on #power-button-text {
+    stroke: #ffffff !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Blaues Leuchten im ON-Zustand */
+.server-off #power-button {
+    fill: #841a00 !important;
+    /* Hellblau */
+    stroke: #ffffff !important;
+}
+
+.server-off #gPowerButton:hover #power-button {
+    fill: #55eaff !important;
+
+}
+
+/* Blaues Leuchten im ON-Zustand */
+.server-on #power-button {
+    fill: #00d4ff !important;
+    /* Hellblau */
+    stroke: #ffffff !important;
+    filter: drop-shadow(0 0 12px #00d4ff) drop-shadow(0 0 3px #ffffff);
+}
+
+.server-on #gPowerButton:hover #power-button {
+    fill: #55eaff !important;
+    /* Noch helleres Blau beim Hover wenn an */
+}
+
+/* ── Server Card ── */
+.server-card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 36px 24px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 12px -2px rgba(0, 0, 0, 0.08);
+    transition: border-color 0.5s, box-shadow 0.5s;
+}
+
+body.server-on .server-card {
+    border-color: rgba(0, 119, 204, 0.4);
+    box-shadow: 0 0 40px -10px rgba(0, 119, 204, 0.15), 0 4px 24px -4px rgba(0, 0, 0, 0.08);
+}
+
+.service-card {
+    box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.06);
+}
+
+/* ── Section divider ── */
+.section-label {
+    font-size: 0.65rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    width: 100%;
+    max-width: 520px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.5s 0.2s;
+}
+
+.section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+body.server-on .section-label {
+    opacity: 1;
+}
+
+/* ── Services Grid ── */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 520px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(14px);
+    transition: opacity 0.5s 0.25s, transform 0.5s 0.25s;
+}
+
+body.server-on .services-grid {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.service-card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 14px 16px;
+    text-decoration: none;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.22s, transform 0.22s, box-shadow 0.22s, background 0.22s;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent), 0 16px 32px -8px rgba(0, 0, 0, 0.5), 0 0 24px var(--accent-glow);
+    background: var(--surface-2);
+}
+
+.service-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+}
+
+.service-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.service-icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+.icon-guac {
+    background: rgba(89, 146, 43, 0.15);
+    color: #7bc050;
+}
+
+.icon-grafana {
+    background: rgba(240, 90, 40, 0.15);
+    color: #f47a3a;
+}
+
+.icon-gitea {
+    background: rgba(96, 153, 38, 0.15);
+    color: #80c060;
+}
+
+.service-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.service-desc {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    margin-top: -4px;
+}

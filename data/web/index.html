@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Control Center</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+
+<body class="server-off">
+
+    <div class="header-label">Infrastructure Control</div>
+    <h1>Server Dashboard</h1>
+    <div class="status-bar">
+        <div class="status-dot"></div>
+        <span id="status-text">OFFLINE</span>
+    </div>
+
+    <!-- Server SVG -->
+    <div class="server-card" id="serverContainer">
+        <svg width="460" height="226" viewBox="0 0 292.62913 211.66667" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <pattern id="ventilationGrid" x="0" y="0" width="5" height="5" patternUnits="userSpaceOnUse">
+                    <circle cx="2" cy="2" r="1" fill="#c8d4e0" />
+                </pattern>
+                <linearGradient id="woodGradH" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#1A0803" />
+                    <stop offset="6%" stop-color="#4A2010" />
+                    <stop offset="14%" stop-color="#261008" />
+                    <stop offset="24%" stop-color="#5A280C" />
+                    <stop offset="35%" stop-color="#361508" />
+                    <stop offset="46%" stop-color="#6A3010" />
+                    <stop offset="56%" stop-color="#361508" />
+                    <stop offset="67%" stop-color="#5A280C" />
+                    <stop offset="78%" stop-color="#261008" />
+                    <stop offset="89%" stop-color="#4A2010" />
+                    <stop offset="100%" stop-color="#1A0803" />
+                </linearGradient>
+                <pattern id="woodPat" x="11.676" y="10.064" width="170.388" height="48.353"
+                    patternUnits="userSpaceOnUse">
+                    <rect width="170.388" height="48.353" fill="url(#woodGradH)" />
+                    <path d="M0,3   C28,2.3 56,3.8  85,3.2  C114,2.6 142,4.0 170,3" stroke="#8B4010" stroke-width="0.45"
+                        fill="none" opacity="0.5" />
+                    <path d="M0,7.5 C22,8.3 52,6.8  90,7.6  C128,8.4 155,7.0 170,7.8" stroke="#3D1A08"
+                        stroke-width="0.65" fill="none" opacity="0.65" />
+                    <path d="M0,12  C35,11.2 68,13  100,12.4 C132,11.7 155,13 170,12" stroke="#7A3010"
+                        stroke-width="0.40" fill="none" opacity="0.45" />
+                    <path d="M0,17  C20,17.8 55,16.4 88,17.2 C121,18  150,16.8 170,17.5" stroke="#502010"
+                        stroke-width="0.60" fill="none" opacity="0.60" />
+                    <path d="M0,22  C38,21.2 72,22.8 104,22.1 C136,21.4 158,22.9 170,22" stroke="#6A2E0E"
+                        stroke-width="0.50" fill="none" opacity="0.50" />
+                    <path d="M0,27  C30,27.8 62,26.4 98,27.2  C130,28  155,26.8 170,27.5" stroke="#3D1A08"
+                        stroke-width="0.65" fill="none" opacity="0.60" />
+                    <path d="M0,32  C25,31.3 60,32.8 92,32.1  C124,31.4 152,32.8 170,32" stroke="#7A3010"
+                        stroke-width="0.45" fill="none" opacity="0.50" />
+                    <path d="M0,37  C32,37.8 66,36.3 100,37.1 C134,37.9 158,36.5 170,37.2" stroke="#502010"
+                        stroke-width="0.55" fill="none" opacity="0.55" />
+                    <path d="M0,42  C28,41.2 62,42.8 96,42.0  C130,41.3 156,42.6 170,42" stroke="#6A2E0E"
+                        stroke-width="0.40" fill="none" opacity="0.45" />
+                    <path d="M0,46.5 C24,47.3 58,45.9 92,46.7 C126,47.5 152,46.1 170,46.8" stroke="#3D1A08"
+                        stroke-width="0.60" fill="none" opacity="0.60" />
+                </pattern>
+                <filter id="ledGlow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="1.5" result="blur" />
+                    <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                </filter>
+            </defs>
+
+            <g transform="matrix(1.6837987,0,0,1.7534248,-16.903467,-14.23126)">
+                <!-- Body -->
+                <rect style="fill:#eef2f7;stroke:#c8d4e0;stroke-width:0.5;stroke-linejoin:round" width="172.81279"
+                    height="119.40358" x="10.474553" y="8.9525585" ry="2.4532139" />
+                <!-- Ventilation -->
+                <rect fill="url(#ventilationGrid)" rx="4" width="165.5358" height="60.028885" x="13.487155"
+                    y="63.749977" ry="2.4532139" />
+                <!-- Wood panel -->
+                <rect width="170.38785" height="48.353222" x="11.676163" y="10.06439" ry="1.7172499"
+                    style="fill:url(#woodPat);stroke:#0a0502;stroke-width:0.8" />
+                <!-- Drive bays -->
+                <rect x="90" y="18" width="82" height="6.2" ry="1.2" fill="#d0dae6" stroke="#b8c8d8"
+                    stroke-width="0.4" />
+                <rect x="90" y="27" width="82" height="6.2" ry="1.2" fill="#d0dae6" stroke="#b8c8d8"
+                    stroke-width="0.4" />
+                <rect x="90" y="36" width="82" height="6.2" ry="1.2" fill="#d0dae6" stroke="#b8c8d8"
+                    stroke-width="0.4" />
+                <rect x="90" y="45" width="82" height="6.2" ry="1.2" fill="#d0dae6" stroke="#b8c8d8"
+                    stroke-width="0.4" />
+                <!-- HDD LED indicators -->
+                <circle cx="94" cy="21.1" r="2" fill="#3fb950" filter="url(#ledGlow)" opacity="0.25" id="led0">
+                    <animate attributeName="opacity" values="0.25;0.9;0.25" dur="1.1s" repeatCount="indefinite"
+                        begin="0s" />
+                </circle>
+                <circle cx="94" cy="30.1" r="2" fill="#3fb950" filter="url(#ledGlow)" opacity="0.25" id="led1">
+                    <animate attributeName="opacity" values="0.25;0.9;0.25" dur="0.85s" repeatCount="indefinite"
+                        begin="0.28s" />
+                </circle>
+                <circle cx="94" cy="39.1" r="2" fill="#f0a050" filter="url(#ledGlow)" opacity="0.25" id="led2">
+                    <animate attributeName="opacity" values="0.25;0.7;0.25" dur="1.9s" repeatCount="indefinite"
+                        begin="0.55s" />
+                </circle>
+                <circle cx="94" cy="48.1" r="2" fill="#3fb950" filter="url(#ledGlow)" opacity="0.25" id="led3">
+                    <animate attributeName="opacity" values="0.25;0.9;0.25" dur="1.4s" repeatCount="indefinite"
+                        begin="0.8s" />
+                </circle>
+                <!-- Power Button -->
+                <g id="gPowerButton" onclick="switchOn()"
+                    transform="matrix(0.80066113,0,0,0.80066113,-2.6421651,4.3415756)">
+                    <circle id="power-button" cx="38.517803" cy="27.679308" r="12.833484"
+                        style="fill:#501616;stroke:#30363d;stroke-width:1.5" />
+                    <text id="power-button-text" x="38.933598" y="30.198656" text-anchor="middle"
+                        style="font-style:normal;font-weight:bold;font-size:8px;font-family:'JetBrains Mono',monospace;fill:#8b949e;stroke:none">OFF</text>
+                </g>
+            </g>
+        </svg>
+    </div>
+
+    <div class="section-label">Services</div>
+
+    <div class="services-grid">
+        <a href="#" class="service-card">
+            <div class="service-badge"></div>
+            <div class="service-icon icon-guac">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M12,2C15.5,2 18.5,4.5 19.5,8C21.5,10.5 22,14.5 20,18C18,21.5 14,22.5 11,22C7.5,21.5 4,18.5 3,14C2,10.5 3.5,6 7,3.5C8.5,2.5 10.2,2 12,2M12,4C10.6,4 9.3,4.4 8.2,5.1C5.4,7.1 4.2,10.7 5,13.6C5.8,17.2 8.6,19.6 11.3,20C13.7,20.4 16.9,19.6 18.5,16.9C20.1,14.2 19.7,11 18.1,9C17.3,6.1 14.9,4 12,4M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7Z" />
+                </svg>
+            </div>
+            <span class="service-name">Guacamole</span>
+            <span class="service-desc">Remote Access</span>
+        </a>
+
+        <a href="#" class="service-card">
+            <div class="service-badge"></div>
+            <div class="service-icon icon-grafana">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z" />
+                </svg>
+            </div>
+            <span class="service-name">Grafana</span>
+            <span class="service-desc">Monitoring</span>
+        </a>
+
+        <a href="#" class="service-card">
+            <div class="service-badge"></div>
+            <div class="service-icon icon-gitea">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M3,3H21A2,2 0 0,1 23,5V19A2,2 0 0,1 21,21H3A2,2 0 0,1 1,19V5A2,2 0 0,1 3,3M5,7V9H9.5V17H11.5V9H16V7H5Z" />
+                </svg>
+            </div>
+            <span class="service-name">Gitea</span>
+            <span class="service-desc">Source Control</span>
+        </a>
+    </div>
+
+    <script>
+
+        var globalIsBusy = false
+        var globalIsOn = false
+
+        async function switchState(online) {
+            const statusText = document.getElementById('status-text');
+            const powerText = document.getElementById('power-button-text');
+            if (!online) {
+                document.body.classList.add('server-off')
+                document.body.classList.remove('server-on')
+                statusText.innerHTML = "Offline"
+                powerText.textContent = "OFF"
+                globalIsOn = false
+            } else {
+                document.body.classList.remove('server-off')
+                document.body.classList.add('server-on')
+                statusText.innerHTML = "Online"
+                powerText.textContent = "ON"
+                globalIsOn = true
+            }
+        }
+
+        async function switchOn() {
+            if (globalIsBusy) return
+            globalIsBusy = true
+
+            const statusText = document.getElementById('status-text');
+            const powerText = document.getElementById('power-button-text');
+            if (globalIsOn) {
+                statusText.innerHTML = "Powering Off"
+                await poweringOff()
+                switchState(false)
+            } else {
+                statusText.innerHTML = "Powering Up"
+                await poweringOn()
+                switchState(true)
+            }
+
+            globalIsBusy = false
+        };
+
+        async function poweringOff() {
+            await new Promise(r => setTimeout(r, 2000));
+        }
+        async function poweringOn() {
+            await new Promise(r => setTimeout(r, 2000));
+        }
+
+        async function checkState() {
+
+            // API Call
+            const isOnline = true
+            switchState(isOnline);
+        }
+        window.onload = checkState
+    </script>
+</body>
+
+</html>
