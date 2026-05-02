@@ -107,7 +107,7 @@
                         begin="0.8s" />
                 </circle>
                 <!-- Power Button -->
-                <g id="gPowerButton" onclick="switchOn()"
+                <g id="gPowerButton" onclick="pressPowerButton()"
                     transform="matrix(0.80066113,0,0,0.80066113,-2.6421651,4.3415756)">
                     <circle id="power-button" cx="38.517803" cy="27.679308" r="12.833484"
                         style="fill:#501616;stroke:#30363d;stroke-width:1.5" />
@@ -121,7 +121,7 @@
     <div class="section-label">Services</div>
 
     <div class="services-grid">
-        <a href="#" class="service-card">
+        <a href="https://nfs.fritz.box/guacamole" class="service-card">
             <div class="service-badge"></div>
             <div class="service-icon icon-guac">
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -133,7 +133,7 @@
             <span class="service-desc">Remote Access</span>
         </a>
 
-        <a href="#" class="service-card">
+        <a href="https://nfs.fritz.box/grafana" class="service-card">
             <div class="service-badge"></div>
             <div class="service-icon icon-grafana">
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -145,7 +145,7 @@
             <span class="service-desc">Monitoring</span>
         </a>
 
-        <a href="#" class="service-card">
+        <a href="https://nfs.fritz.box/gitea" class="service-card">
             <div class="service-badge"></div>
             <div class="service-icon icon-gitea">
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -160,60 +160,57 @@
 
     <script>
 
-        var globalIsBusy = false
-        var globalIsOn = false
+        var state = {}
 
-        async function switchState(online) {
+        async function pressPowerButton() {
+
+            // Return when server is powering up or shuting down
+            if (state.poweringUp || state.poweringDown) return;
+
             const statusText = document.getElementById('status-text');
             const powerText = document.getElementById('power-button-text');
-            if (!online) {
+            if (state.online) {
+                state.poweringDown = true
+                statusText.innerHTML = "Powering Off"
+                await fetch("/server/shutdown");
+            } else {
+                state.poweringUp = true
+                statusText.innerHTML = "Powering Up"
+                await fetch("/server/startup");
+            }
+
+            await checkState()
+        };
+
+        async function checkState() {
+            const res = await fetch("/server/status");
+            state = await res.json();
+
+            const statusText = document.getElementById('status-text');
+            const powerText = document.getElementById('power-button-text');
+
+            if (!state.online) {
                 document.body.classList.add('server-off')
                 document.body.classList.remove('server-on')
                 statusText.innerHTML = "Offline"
                 powerText.textContent = "OFF"
-                globalIsOn = false
             } else {
                 document.body.classList.remove('server-off')
                 document.body.classList.add('server-on')
                 statusText.innerHTML = "Online"
                 powerText.textContent = "ON"
-                globalIsOn = true
             }
-        }
 
-        async function switchOn() {
-            if (globalIsBusy) return
-            globalIsBusy = true
-
-            const statusText = document.getElementById('status-text');
-            const powerText = document.getElementById('power-button-text');
-            if (globalIsOn) {
-                statusText.innerHTML = "Powering Off"
-                await poweringOff()
-                switchState(false)
-            } else {
+            if (state.poweringUp) {
                 statusText.innerHTML = "Powering Up"
-                await poweringOn()
-                switchState(true)
             }
-
-            globalIsBusy = false
-        };
-
-        async function poweringOff() {
-            await new Promise(r => setTimeout(r, 2000));
-        }
-        async function poweringOn() {
-            await new Promise(r => setTimeout(r, 2000));
+            if (state.shuttingDown) {
+                statusText.innerHTML = "Powering Off"
+            }
         }
 
-        async function checkState() {
-
-            // API Call
-            const isOnline = true
-            switchState(isOnline);
-        }
         window.onload = checkState
+        setInterval(checkState, 30000)
     </script>
 </body>
 
