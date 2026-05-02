@@ -1,8 +1,7 @@
 #include <Arduino.h>
 
-#include <../lib/server/server.h>
+#include <server.h>
 
-#include <routes/routes.example.h>
 #include <routes/routes.server.manager.h>
 
 void setup()
@@ -28,7 +27,6 @@ void setup()
   Server->root("/web");
   Server->index("/web/index.html");
 
-  Server->registerRouter(routes_example::Router());
   Server->registerRouter(routes_server_manager::Router());
 
   Server->start(80);
