@@ -70,6 +70,12 @@ namespace routes_server_manager
         }
     }
 
+    /*-------------------------------------------------------------------------------------------------
+     *
+     * Request handlers for shutting down and booting up
+     *
+     **/
+
     void Router::get_shutdown(const ESP32WebServer::Request &req, ESP32WebServer::Response &res)
     {
 
@@ -158,6 +164,11 @@ namespace routes_server_manager
         res.OK().text("🪄 Magic Packet was sent");
     }
 
+    /*-------------------------------------------------------------------------------------------------
+     *
+     * Get current status
+     *
+     **/
     void Router::get_status(const ESP32WebServer::Request &req, ESP32WebServer::Response &res)
     {
         ServerState *STATE = ServerState::instance();
