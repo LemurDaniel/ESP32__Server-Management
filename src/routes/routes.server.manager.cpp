@@ -76,7 +76,7 @@ namespace routes_server_manager
      *
      **/
 
-    void Router::get_shutdown(const ESP32WebServer::Request &req, ESP32WebServer::Response &res)
+    void Router::get_shutdown(const EspWeb::Request &req, EspWeb::Response &res)
     {
 
         ServerState *STATE = ServerState::instance();
@@ -116,7 +116,7 @@ namespace routes_server_manager
         http.end();
     }
 
-    void Router::get_startup(const ESP32WebServer::Request &req, ESP32WebServer::Response &res)
+    void Router::get_startup(const EspWeb::Request &req, EspWeb::Response &res)
     {
         ServerState *STATE = ServerState::instance();
 
@@ -169,7 +169,7 @@ namespace routes_server_manager
      * Get current status
      *
      **/
-    void Router::get_status(const ESP32WebServer::Request &req, ESP32WebServer::Response &res)
+    void Router::get_status(const EspWeb::Request &req, EspWeb::Response &res)
     {
         ServerState *STATE = ServerState::instance();
 

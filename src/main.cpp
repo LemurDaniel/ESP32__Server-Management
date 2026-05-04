@@ -8,7 +8,7 @@ void setup()
 {
   Serial.begin(115200);
 
-  ESP32WebServer::MiniServer *Server = new ESP32WebServer::MiniServer();
+  EspWeb::MiniServer *Server = new EspWeb::MiniServer();
 
   // Will start enter WiFi setup, if this function isn't used.
   // Credentials are permanently stored via LittleFs.

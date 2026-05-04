@@ -27,7 +27,7 @@ namespace routes_server_manager
             static ServerState *_instance;
     };
 
-    class Router : public ESP32WebServer::Router
+    class Router : public EspWeb::Router
     {
     public:
         Router()
@@ -42,9 +42,9 @@ namespace routes_server_manager
     private:
         static void statusTask(void *params);
 
-        static void get_shutdown(const ESP32WebServer::Request &req, ESP32WebServer::Response &res);
-        static void get_startup(const ESP32WebServer::Request &req, ESP32WebServer::Response &res);
-        static void get_status(const ESP32WebServer::Request &req, ESP32WebServer::Response &res);
+        static void get_shutdown(const EspWeb::Request &req, EspWeb::Response &res);
+        static void get_startup(const EspWeb::Request &req, EspWeb::Response &res);
+        static void get_status(const EspWeb::Request &req, EspWeb::Response &res);
     };
 
 }
