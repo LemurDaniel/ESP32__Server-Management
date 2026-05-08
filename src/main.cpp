@@ -24,10 +24,13 @@ void setup()
   // Disables admin routes entirly
   // Server->disableAdmin();
 
-  Server->root("/web");
-  Server->index("/web/index.html");
+  // Server->root("/web");
+  // Server->index("/web/index.html");
 
   Server->registerRouter(routes_server_manager::Router());
+
+  Server->dns("dev"); // dev.local
+  // Server->dns("web"); // web.local
 
   Server->start(80);
 }
