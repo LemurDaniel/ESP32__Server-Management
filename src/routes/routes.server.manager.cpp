@@ -29,18 +29,18 @@ namespace routes_server_manager
                 continue;
             }
 
-            HTTPClient http;
-            WiFiClientSecure client;
-
-            // Ignore Self-Signed SSL Certificate
-            client.setInsecure();
-            http.begin(client, "https://nfs.fritz.box");
-
-            int statusCode = http.GET();
-            STATE->isOnline = statusCode > 0;
-            Serial.print("https://nfs.fritz.box: ");
-            Serial.println(statusCode);
-            http.end();
+            {
+                HTTPClient http;
+                WiFiClientSecure client;
+                client.setInsecure();
+                http.begin(client, "https://nfs.fritz.box");
+                int statusCode = http.GET();
+                STATE->isOnline = statusCode > 0;
+                Serial.print("https://nfs.fritz.box: ");
+                Serial.println(statusCode);
+                http.end();
+                client.stop();
+            }
 
             if (STATE->isOnline && STATE->isPoweringUp)
             {
@@ -54,17 +54,35 @@ namespace routes_server_manager
                 STATE->isShuttingDown = false;
             }
 
-            http.begin(client, "https://nfs.fritz.box/grafana");
-            STATE->grafana.isOnline = http.GET() > 0;
-            http.end();
+            {
+                HTTPClient http;
+                WiFiClientSecure client;
+                client.setInsecure();
+                http.begin(client, "https://nfs.fritz.box/grafana");
+                STATE->grafana.isOnline = http.GET() > 0;
+                http.end();
+                client.stop();
+            }
 
-            http.begin(client, "https://nfs.fritz.box/guacamole");
-            STATE->gucacamole.isOnline = http.GET() > 0;
-            http.end();
+            {
+                HTTPClient http;
+                WiFiClientSecure client;
+                client.setInsecure();
+                http.begin(client, "https://nfs.fritz.box/guacamole");
+                STATE->gucacamole.isOnline = http.GET() > 0;
+                http.end();
+                client.stop();
+            }
 
-            http.begin(client, "https://nfs.fritz.box/gitea");
-            STATE->gitea.isOnline = http.GET() > 0;
-            http.end();
+            {
+                HTTPClient http;
+                WiFiClientSecure client;
+                client.setInsecure();
+                http.begin(client, "https://nfs.fritz.box/gitea");
+                STATE->gitea.isOnline = http.GET() > 0;
+                http.end();
+                client.stop();
+            }
 
             vTaskDelay(15 * 1000 / portTICK_PERIOD_MS);
         }
@@ -103,14 +121,15 @@ namespace routes_server_manager
 
         // http.addHeader("Authorization", "Basic TODO");
 
-        if (http.GET() == 200)
+        int statusCode = http.GET();
+        if (statusCode == 200)
         {
             STATE->isShuttingDown = true;
             res.OK().text("Sucessfully send shutdown");
         }
         else
         {
-            res.status(http.GET()).text("Something went wrong");
+            res.status(statusCode).text("Something went wrong");
         }
 
         http.end();

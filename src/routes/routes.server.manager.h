@@ -36,7 +36,7 @@ namespace routes_server_manager
             route("GET", "/server/startup", get_startup);
             route("GET", "/server/status", get_status);
 
-            xTaskCreatePinnedToCore(statusTask, "status", 8192, ServerState::instance(), 1, NULL, 0);
+            xTaskCreatePinnedToCore(statusTask, "status", 16384, ServerState::instance(), 1, NULL, 0);
         }
 
     private:
