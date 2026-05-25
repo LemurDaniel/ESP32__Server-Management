@@ -37,8 +37,5 @@ void setup()
 
 void loop()
 {
-  while (true)
-  {
-    delay(10);
-  }
+  vTaskDelete(NULL); // Loop-Task komplett entfernen, FreeRTOS gibt Ressourcen frei
 }
