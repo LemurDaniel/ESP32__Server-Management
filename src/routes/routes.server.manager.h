@@ -12,16 +12,9 @@ namespace routes_server_manager
         public:
             static ServerState *instance();
 
-            struct Status
-            {
-                int isOnline = false;
-            };
             volatile int isShuttingDown = false;
             volatile int isPoweringUp = false;
             volatile int isOnline = false;
-            volatile Status gitea;
-            volatile Status grafana;
-            volatile Status gucacamole;
 
         private:
             static ServerState *_instance;

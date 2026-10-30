@@ -14,6 +14,11 @@ A physical one-click power switch for your home server — built on an ESP32.
 </div>
 
 
+## 🤖 AI Notice
+
+Parts of this project (dashboard UI, firmware refactoring and documentation) were developed with the help of
+AI tooling (Claude Code). All changes were reviewed, tested on real hardware and are maintained by the author.
+
 ## 📁 Project Structure
 
 ```
@@ -54,7 +59,7 @@ The ESP32 sits permanently on the network and serves a browser-based dashboard. 
 
 - **Power on** the server by sending a Wake-on-LAN magic packet over UDP.
 - **Shut down** the server by calling a remote API endpoint on the server itself.
-- **Monitor** whether the server and its services (Gitea, Grafana, Guacamole) are currently reachable.
+- **Monitor** whether the server is currently reachable and jump to its dashboard (`https://nfs.fritz.box`) once it is online.
 
 The dashboard polls the ESP32 every 30 seconds to reflect the current state. A background FreeRTOS task probes the server over HTTPS every 15 seconds and updates an internal state singleton that all HTTP handlers read from.
 

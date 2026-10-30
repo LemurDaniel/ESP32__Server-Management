@@ -54,36 +54,6 @@ namespace routes_server_manager
                 STATE->isShuttingDown = false;
             }
 
-            {
-                HTTPClient http;
-                WiFiClientSecure client;
-                client.setInsecure();
-                http.begin(client, "https://nfs.fritz.box/grafana");
-                STATE->grafana.isOnline = http.GET() > 0;
-                http.end();
-                client.stop();
-            }
-
-            {
-                HTTPClient http;
-                WiFiClientSecure client;
-                client.setInsecure();
-                http.begin(client, "https://nfs.fritz.box/guacamole");
-                STATE->gucacamole.isOnline = http.GET() > 0;
-                http.end();
-                client.stop();
-            }
-
-            {
-                HTTPClient http;
-                WiFiClientSecure client;
-                client.setInsecure();
-                http.begin(client, "https://nfs.fritz.box/gitea");
-                STATE->gitea.isOnline = http.GET() > 0;
-                http.end();
-                client.stop();
-            }
-
             vTaskDelay(15 * 1000 / portTICK_PERIOD_MS);
         }
     }
@@ -197,9 +167,6 @@ namespace routes_server_manager
         status["online"] = STATE->isOnline;
         status["poweringUp"] = STATE->isPoweringUp;
         status["shuttingDown"] = STATE->isShuttingDown;
-        status["gitea"]["online"] = STATE->gitea.isOnline;
-        status["grafana"]["online"] = STATE->grafana.isOnline;
-        status["gucacamole"]["online"] = STATE->gucacamole.isOnline;
 
         res.json(status).status(200);
     }

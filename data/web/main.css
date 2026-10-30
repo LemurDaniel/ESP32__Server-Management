@@ -185,7 +185,7 @@ body.server-on .section-label {
 /* ── Services Grid ── */
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     gap: 12px;
     width: 100%;
     max-width: 520px;
@@ -249,19 +249,9 @@ body.server-on .services-grid {
     height: 26px;
 }
 
-.icon-guac {
-    background: rgba(89, 146, 43, 0.15);
-    color: #7bc050;
-}
-
-.icon-grafana {
-    background: rgba(240, 90, 40, 0.15);
-    color: #f47a3a;
-}
-
-.icon-gitea {
-    background: rgba(96, 153, 38, 0.15);
-    color: #80c060;
+.icon-dashboard {
+    background: rgba(0, 119, 204, 0.12);
+    color: var(--accent);
 }
 
 .service-name {
