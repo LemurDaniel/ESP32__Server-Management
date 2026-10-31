@@ -139,6 +139,34 @@
         </a>
     </div>
 
+    <div class="section-label always">Zeitplan</div>
+
+    <div class="schedule-card" id="schedule-card">
+        <div class="schedule-row">
+            <div class="schedule-item">
+                <span class="schedule-k">Wecken</span>
+                <span class="schedule-v" id="sched-wake">--:--</span>
+                <span class="schedule-s">falls offline</span>
+            </div>
+            <div class="schedule-item">
+                <span class="schedule-k">Herunterfahren</span>
+                <span class="schedule-v" id="sched-from">--:--</span>
+                <span class="schedule-s">wenn kein Job l&auml;uft</span>
+            </div>
+            <div class="schedule-item">
+                <span class="schedule-k">Sp&auml;testens</span>
+                <span class="schedule-v" id="sched-dead">--:--</span>
+                <span class="schedule-s">auch mit Job</span>
+            </div>
+        </div>
+        <div class="schedule-status">
+            <span><b>ESP-Zeit</b> <span id="sched-time">--:--</span></span>
+            <span><b>Nachtlauf</b> <span id="sched-run">inaktiv</span></span>
+            <span><b>Wartung</b> <span id="sched-maint">keine</span></span>
+        </div>
+        <div class="schedule-next" id="sched-next"></div>
+    </div>
+
     <script>
 
         var state = {}
@@ -189,6 +217,8 @@
                 statusText.innerHTML = "Powering Off"
             }
 
+            renderSchedule(state);
+
             // Nachtlauf: vom ESP per Zeitplan geweckt, faehrt wieder herunter
             const hint = document.getElementById('schedule-hint');
             if (state.scheduledBoot && state.online) {
@@ -202,6 +232,27 @@
             } else {
                 hint.hidden = true;
             }
+        }
+
+        function renderSchedule(st) {
+            const sc = st.schedule || {};
+            const set = (id, v) => document.getElementById(id).textContent = v;
+            set('sched-wake', sc.wakeAt || '--:--');
+            set('sched-from', sc.shutdownFrom || '--:--');
+            set('sched-dead', sc.deadline || '--:--');
+            set('sched-time', st.timeSynced ? (st.time || '--:--') : 'kein NTP');
+            set('sched-run', st.scheduledBoot ? 'aktiv' : (sc.wokeToday ? 'heute geweckt' : 'inaktiv'));
+            set('sched-maint', st.maintenanceActive ? 'Job läuft' : 'keine');
+
+            let next = '';
+            if (!st.timeSynced) next = 'Warte auf Zeitsynchronisation';
+            else if (st.scheduledBoot && st.online) next = st.maintenanceActive
+                ? 'Shutdown, sobald der Wartungsjob fertig ist, spätestens ' + (sc.deadline || '')
+                : 'Shutdown ab ' + (sc.shutdownFrom || '');
+            else if (!st.online) next = 'WOL um ' + (sc.wakeAt || '') + ', falls dann noch offline';
+            else next = 'Server manuell an, kein automatischer Shutdown';
+            set('sched-next', next);
+            document.getElementById('schedule-card').classList.toggle('run-active', !!st.scheduledBoot);
         }
 
         window.onload = checkState

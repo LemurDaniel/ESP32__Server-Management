@@ -189,7 +189,8 @@ body.server-on .server-card {
     background: var(--border);
 }
 
-body.server-on .section-label {
+body.server-on .section-label,
+.section-label.always {
     opacity: 1;
 }
 
@@ -274,4 +275,85 @@ body.server-on .services-grid {
     font-size: 0.68rem;
     color: var(--text-muted);
     margin-top: -4px;
+}
+/* ── Zeitplan ── */
+.services-grid + .section-label {
+    margin-top: 28px;
+}
+
+.schedule-card {
+    width: 100%;
+    max-width: 520px;
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px 14px;
+    box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.06);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.schedule-card.run-active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent), 0 0 24px var(--accent-glow);
+}
+
+.schedule-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.schedule-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 10px 6px;
+    border-radius: 10px;
+    background: var(--surface-2);
+}
+
+.schedule-k {
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.schedule-v {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.schedule-s {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+}
+
+.schedule-status {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+}
+
+.schedule-status b {
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-right: 4px;
+}
+
+.schedule-next {
+    margin-top: 8px;
+    font-size: 0.72rem;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
 }

@@ -290,10 +290,14 @@ namespace routes_server_manager
             snprintf(buf, sizeof(buf), "%02d:%02d", now.tm_hour, now.tm_min);
             status["time"] = buf;
         }
-        char sched[48];
-        snprintf(sched, sizeof(sched), "wake %02d:%02d, shutdown %02d:%02d-%02d:00",
-                 SCHED_WAKE_HOUR, SCHED_WAKE_MINUTE, SCHED_SHUTDOWN_HOUR, SCHED_SHUTDOWN_MINUTE, SCHED_DEADLINE_HOUR);
-        status["schedule"] = sched;
+        char wake[6], from[6], dead[6];
+        snprintf(wake, sizeof(wake), "%02d:%02d", SCHED_WAKE_HOUR, SCHED_WAKE_MINUTE);
+        snprintf(from, sizeof(from), "%02d:%02d", SCHED_SHUTDOWN_HOUR, SCHED_SHUTDOWN_MINUTE);
+        snprintf(dead, sizeof(dead), "%02d:00", SCHED_DEADLINE_HOUR);
+        status["schedule"]["wakeAt"] = wake;
+        status["schedule"]["shutdownFrom"] = from;
+        status["schedule"]["deadline"] = dead;
+        status["schedule"]["wokeToday"] = STATE->timeSynced && STATE->lastWakeDay == now.tm_yday;
 
         res.json(status).status(200);
     }
