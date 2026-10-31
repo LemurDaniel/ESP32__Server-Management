@@ -29,6 +29,9 @@ void setup()
 
   Server->registerRouter(routes_server_manager::Router());
 
+  // Uhrzeit per NTP, Zeitzone Berlin inkl. Sommerzeit. Braucht der Nacht-Zeitplan im Router.
+  configTzTime("CET-1CEST,M3.5.0,M10.5.0/3", "pool.ntp.org", "time.google.com");
+
   Server->dns("dev"); // dev.local
   // Server->dns("web"); // web.local
 

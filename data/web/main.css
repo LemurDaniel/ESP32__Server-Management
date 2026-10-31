@@ -91,6 +91,17 @@ body.server-on .status-dot {
     }
 }
 
+.schedule-hint {
+    margin: -28px 0 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    background: var(--accent-glow);
+    border-radius: 999px;
+    padding: 4px 12px;
+}
+
 /* ── Button Styling ── */
 #gPowerButton {
     cursor: pointer;

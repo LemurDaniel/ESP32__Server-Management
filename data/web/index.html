@@ -18,6 +18,7 @@
         <div class="status-dot"></div>
         <span id="status-text">OFFLINE</span>
     </div>
+    <div class="schedule-hint" id="schedule-hint" hidden></div>
 
     <!-- Server SVG -->
     <div class="server-card" id="serverContainer">
@@ -186,6 +187,20 @@
             }
             if (state.shuttingDown) {
                 statusText.innerHTML = "Powering Off"
+            }
+
+            // Nachtlauf: vom ESP per Zeitplan geweckt, faehrt wieder herunter
+            const hint = document.getElementById('schedule-hint');
+            if (state.scheduledBoot && state.online) {
+                hint.textContent = state.maintenanceActive
+                    ? "Nachtlauf: Wartungsjob aktiv, Shutdown folgt"
+                    : "Nachtlauf: faehrt ab 04:30 automatisch herunter";
+                hint.hidden = false;
+            } else if (state.timeSynced === false) {
+                hint.textContent = "Zeitplan wartet auf NTP";
+                hint.hidden = false;
+            } else {
+                hint.hidden = true;
             }
         }
 
